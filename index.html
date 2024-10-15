@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wake up, Eddie...</title>
+
+  <style>
+    /* Full black background */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      background-color: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      font-family: 'Courier New', monospace; /* Matrix vibe */
+      font-size: 32px;
+      color: #00ff00; /* Neon green text */
+      text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+    }
+
+    /* Retro Scanline Effect */
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0) 0px,
+        rgba(0, 0, 0, 0) 1px,
+        rgba(0, 0, 0, 0.2) 2px
+      );
+      pointer-events: none;
+      mix-blend-mode: multiply;
+      opacity: 0.3;
+    }
+
+    /* Text container formatting */
+    #text-container {
+      white-space: pre-wrap;
+      text-align: center;
+      filter: blur(0.8px); /* Subtle blur for CRT effect */
+    }
+
+    /* Blinking cursor */
+    .cursor {
+      display: inline-block;
+      width: 12px;
+      height: 32px;
+      background-color: #00ff00;
+      animation: blink 1s steps(2, end) infinite;
+    }
+
+    @keyframes blink {
+      50% { background-color: transparent; }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="text-container"></div>
+
+  <script>
+    const messages = [
+      "Wake up, Eddie...",
+      "The Matrix has you...",
+      "Follow the white rabbit.",
+      "Knock, knock, Eddie."
+    ];
+
+    const textContainer = document.getElementById('text-container');
+    let messageIndex = 0;
+    let charIndex = 0;
+
+    function typeMessage() {
+      if (charIndex < messages[messageIndex].length) {
+        textContainer.innerHTML += messages[messageIndex][charIndex++];
+        setTimeout(typeMessage, 100);
+      } else {
+        charIndex = 0;
+        messageIndex++;
+        if (messageIndex < messages.length) {
+          setTimeout(() => {
+            textContainer.innerHTML = '';
+            typeMessage();
+          }, 2000);
+        } else {
+          const cursor = document.createElement('span');
+          cursor.classList.add('cursor');
+          textContainer.appendChild(cursor);
+        }
+      }
+    }
+
+    setTimeout(typeMessage, 1000);
+  </script>
+</body>
+</html>
